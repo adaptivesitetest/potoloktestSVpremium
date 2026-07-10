@@ -27,6 +27,9 @@
   --radius: 22px;
   --radius-lg: 30px;
   --gutter: clamp(20px, 5vw, 72px);
+  /* на широких экранах контент не растягивается шире 1400px,
+     фоны секций при этом остаются во всю ширину */
+  --pad-x: max(var(--gutter), calc((100% - 1400px) / 2));
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -212,7 +215,7 @@ body[data-lights="off"] .light-mini {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px var(--gutter);
+  padding: 18px var(--pad-x);
   transition: background 0.4s var(--ease), border-color 0.4s var(--ease),
     padding 0.4s var(--ease);
   border-bottom: 1px solid transparent;
@@ -321,7 +324,7 @@ body[data-lights="off"] .light-mini {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 140px var(--gutter) 0;
+  padding: 140px var(--pad-x) 0;
   isolation: isolate;
   overflow: hidden;
 }
@@ -678,7 +681,7 @@ body[data-lights="off"] .hero-switch-block {
    Строка услуг
    ============================================================ */
 .intro-band {
-  padding: 30px var(--gutter);
+  padding: 30px var(--pad-x);
   border-block: 1px solid var(--line);
   background: var(--bg-soft);
 }
@@ -711,7 +714,7 @@ body[data-lights="off"] .hero-switch-block {
    Общие секции
    ============================================================ */
 .section {
-  padding: clamp(80px, 10vw, 140px) var(--gutter);
+  padding: clamp(80px, 10vw, 140px) var(--pad-x);
 }
 
 .section-head {
@@ -758,7 +761,7 @@ body[data-lights="off"] .hero-switch-block {
 .solution-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: minmax(300px, auto);
+  grid-auto-rows: minmax(280px, auto);
   gap: 18px;
 }
 
@@ -767,13 +770,9 @@ body[data-lights="off"] .hero-switch-block {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  gap: 10px;
-  padding: 30px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background:
-    radial-gradient(120% 120% at 100% 0%, rgba(240, 185, 92, 0.05), transparent 55%),
-    var(--bg-card);
+  background: var(--bg-card);
   overflow: hidden;
   transition: transform 0.45s var(--ease), border-color 0.45s, box-shadow 0.45s;
 }
@@ -784,96 +783,44 @@ body[data-lights="off"] .hero-switch-block {
   box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(240, 185, 92, 0.12);
 }
 
-.solution-card h3 {
-  font-size: 19px;
-  font-weight: 600;
-}
-
-.solution-card p {
-  font-size: 14.5px;
-  color: var(--text-dim);
-  max-width: 440px;
-}
-
-.card-index {
-  position: absolute;
-  top: 24px;
-  right: 26px;
-  font-family: var(--font-display);
-  font-size: 13px;
-  color: var(--text-faint);
-  letter-spacing: 0.1em;
-}
-
-.card-icon {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  margin-bottom: auto;
-  border-radius: 16px;
-  border: 1px solid rgba(240, 185, 92, 0.25);
-  background: rgba(240, 185, 92, 0.08);
-  color: var(--gold);
-  transition: background 0.4s, box-shadow 0.4s;
-}
-
-.card-icon i {
-  width: 24px;
-  height: 24px;
-}
-
-.solution-card:hover .card-icon {
-  background: rgba(240, 185, 92, 0.16);
-  box-shadow: 0 0 24px rgba(240, 185, 92, 0.25);
-}
-
-/* карточка с фото — тот же размер, что и остальные */
-.feature-card {
-  padding: 0;
-  justify-content: flex-end;
-}
-
-.feature-card img {
+.solution-card > img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.8s var(--ease);
+  transition: transform 0.8s var(--ease), filter 1.1s var(--ease);
 }
 
-.feature-card:hover img {
+.solution-card:hover > img {
   transform: scale(1.05);
 }
 
-.feature-card .card-copy {
+.solution-card .card-copy {
   position: relative;
-  padding: 90px 30px 30px;
-  background: linear-gradient(180deg, transparent, rgba(6, 7, 9, 0.88) 45%);
+  padding: 100px 30px 28px;
+  background: linear-gradient(180deg, transparent, rgba(6, 7, 9, 0.55) 30%, rgba(6, 7, 9, 0.92) 70%);
 }
 
-.feature-card .card-copy .card-index {
-  position: static;
+.card-index {
   display: block;
   margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-size: 13px;
   color: var(--gold);
+  letter-spacing: 0.1em;
 }
 
-.feature-card h3 {
+.solution-card h3 {
   font-size: 20px;
+  font-weight: 600;
 }
 
-.feature-card p {
+.solution-card p {
   margin-top: 8px;
-  color: rgba(244, 242, 236, 0.75);
-}
-
-/* акцентная карточка */
-.glow-card {
-  background:
-    radial-gradient(130% 130% at 20% 110%, rgba(240, 185, 92, 0.22), transparent 60%),
-    var(--bg-card);
+  font-size: 14.5px;
+  color: rgba(244, 242, 236, 0.78);
+  max-width: 520px;
 }
 
 /* ============================================================
@@ -1454,7 +1401,7 @@ body[data-lights="off"] .hero-switch-block {
   justify-content: space-between;
   gap: 24px;
   flex-wrap: wrap;
-  padding: 44px var(--gutter);
+  padding: 44px var(--pad-x);
 }
 
 .footer-nav {
@@ -1501,7 +1448,7 @@ body[data-lights="off"] .hero-switch-block {
 }
 
 .footer-bottom {
-  padding: 18px var(--gutter) 26px;
+  padding: 18px var(--pad-x) 26px;
   border-top: 1px solid var(--line);
 }
 
@@ -1514,7 +1461,6 @@ body[data-lights="off"] .hero-switch-block {
    Иконки Lucide (после инициализации <i> становится <svg>)
    ============================================================ */
 .header-cta svg, .btn svg { width: 17px; height: 17px; }
-.card-icon svg { width: 24px; height: 24px; }
 .scene-button svg { width: 16px; height: 16px; }
 .work-cta-inner > svg { width: 34px; height: 34px; color: var(--gold); }
 .work-cta-link svg { width: 16px; height: 16px; }
@@ -1606,11 +1552,7 @@ body[data-lights="off"] .hero-switch-block {
   }
 
   .solution-card {
-    min-height: 240px;
-  }
-
-  .feature-card {
-    min-height: 340px;
+    min-height: 300px;
   }
 
   .work-grid {
